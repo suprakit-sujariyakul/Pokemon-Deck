@@ -1,22 +1,14 @@
-import { useState } from 'react'
-import './App.css'
-import { Image } from 'antd'
-import pokemonLogoSrc from './assets/images/pokedex.png'
-import { Button } from '@atomic'
-import { log } from '@utilities'
-
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { PokemonInfoPage, SearchPage } from '@atomic'
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  log("hello");
-
   return (
-    <>
-      <div>React App</div>
-      <Image width={200} src={pokemonLogoSrc} />
-      <Button type="primary">Click me</Button>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<SearchPage />} />
+        <Route path='pokemon' element={<PokemonInfoPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 

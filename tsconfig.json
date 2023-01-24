@@ -24,11 +24,17 @@
     ],
     "baseUrl": "./",
     "paths": {
+      "@/*": [
+        "src/*"
+      ],
       "@atomic/*": [
         "src/components/atomic/*"
       ],
       "@utilities/*": [
         "src/utilities/*"
+      ],
+      "@assets/*": [
+        "src/assets/*"
       ]
     }
   },
