@@ -1,12 +1,14 @@
-import { useState } from 'react'
-import './App.css'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { PokemonInfoPage, SearchPage } from '@atomic'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<SearchPage />} />
+        <Route path='pokemon' element={<PokemonInfoPage />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
 
