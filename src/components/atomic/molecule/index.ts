@@ -1,3 +1,4 @@
-import Logo from './Logo/Logo'
+import Logo from "./Logo/Logo";
+import SelectMenu from "./SelectMenu/SelectMenu";
 
-export { Logo };
+export { Logo, SelectMenu };

@@ -3,5 +3,5 @@ import SearchPage from "./SearchPage/SearchPage"
 
 export {
     PokemonInfoPage,
-    SearchPage
+    SearchPage,
 };
