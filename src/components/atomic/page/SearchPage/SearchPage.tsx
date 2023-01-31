@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Row, Col } from "antd";
-import { Logo, SelectMenu, Text } from "@atomic";
+import { Logo, SelectMenu, Search } from "@atomic";
 import pokemonLogo from "@assets/images/pokedex.png";
-import { regions } from "./helper";
+import { regions, types, sortby } from "./helper";
 
 const Container = styled.div`
   text-align: center;
@@ -24,6 +24,18 @@ const SearchPage = () => {
     };
   });
 
+  const typesDropdownItems = types.map((t) => ({
+    key: t,
+    value: t,
+    label: t
+  }));
+
+  const sortbyDropdownItems = sortby.map((s) => ({
+    key: s,
+    value: s,
+    label: s
+  }));
+
   return (
     <Container>
       <Logo src={pokemonLogo} width={200} />
@@ -37,20 +49,20 @@ const SearchPage = () => {
         </Col>
         <Col xs={24} sm={12} md={6}>
           <SelectMenu
-            label="REGION"
+            label="TYPES"
             defaultValue="Select"
-            options={regionDropdownItems}
+            options={typesDropdownItems}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <SelectMenu
-            label="REGION"
+            label="SORT BY"
             defaultValue="Select"
-            options={regionDropdownItems}
+            options={sortbyDropdownItems}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
-          <Text fontSize="1rem">Search</Text>
+          <Search label="SEARCH" />
         </Col>
       </StyledRow>
     </Container>

@@ -7,8 +7,7 @@ const Container = styled.div`
   align-items: center;
 
   .dropdown-wrapper {
-    min-width: 20rem;
-    padding: 1rem;
+    margin-top: 1rem;
   }
 `;
 
