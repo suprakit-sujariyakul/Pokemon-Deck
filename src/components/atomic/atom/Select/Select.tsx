@@ -1,22 +1,18 @@
 import { Select as SelectAntd } from "antd";
 
-const handleChange = (value: string) => {
-  console.log(`selected ${value}`);
-};
-
 const Select = ({
-  defaultValue,
-  options
+  options,
+  onChange
 }: {
-  defaultValue: string;
   options: object[];
+  onChange: (value: string) => void;
 }) => {
   return (
     <SelectAntd
-      defaultValue={defaultValue}
+      placeholder="Select"
       style={{ width: 200 }}
       listHeight={150}
-      onChange={handleChange}
+      onChange={(value, option) => onChange(value)}
       options={options}
     />
   );

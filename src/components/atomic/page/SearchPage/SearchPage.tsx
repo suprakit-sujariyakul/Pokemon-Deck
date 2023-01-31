@@ -3,6 +3,7 @@ import { Row, Col } from "antd";
 import { Logo, SelectMenu, Search } from "@atomic";
 import pokemonLogo from "@assets/images/pokedex.png";
 import { regions, types, sortby } from "./helper";
+import { useState } from "react";
 
 const Container = styled.div`
   text-align: center;
@@ -14,27 +15,42 @@ const StyledRow = styled(Row)`
   padding: 2rem;
 `;
 
+const regionDropdownItems = regions.map((r) => {
+  return {
+    ...r,
+    key: r?.name,
+    value: r?.name,
+    label: `${r?.name} (${r?.offset} - ${r?.limit + r?.offset})`
+  };
+});
+
+const typesDropdownItems = types.map((t) => ({
+  key: t,
+  value: t,
+  label: t
+}));
+
+const sortbyDropdownItems = sortby.map((s) => ({
+  key: s,
+  value: s,
+  label: s
+}));
+
+const getFetchPokemonFilters = (filters) => {
+  return filters;
+};
+
 const SearchPage = () => {
-  const regionDropdownItems = regions.map((r) => {
-    return {
-      ...r,
-      key: r?.name,
-      value: r?.name,
-      label: `${r?.name} (${r?.offset} - ${r?.limit + r?.offset})`
-    };
-  });
+  const [filter, setFilter] = useState({});
+  const onFilterChange = (key, value) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      [key]: value
+    }));
+  };
 
-  const typesDropdownItems = types.map((t) => ({
-    key: t,
-    value: t,
-    label: t
-  }));
-
-  const sortbyDropdownItems = sortby.map((s) => ({
-    key: s,
-    value: s,
-    label: s
-  }));
+  const pokemonFilters = getFetchPokemonFilters(filter);
+  console.log({ pokemonFilters });
 
   return (
     <Container>
@@ -43,26 +59,29 @@ const SearchPage = () => {
         <Col xs={24} sm={12} md={6}>
           <SelectMenu
             label="REGION"
-            defaultValue="Select"
             options={regionDropdownItems}
+            onChange={(item) => onFilterChange("region", item)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <SelectMenu
-            label="TYPES"
-            defaultValue="Select"
+            label="TYPE"
             options={typesDropdownItems}
+            onChange={(item) => onFilterChange("type", item)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
           <SelectMenu
             label="SORT BY"
-            defaultValue="Select"
             options={sortbyDropdownItems}
+            onChange={(item) => onFilterChange("sortBy", item)}
           />
         </Col>
         <Col xs={24} sm={12} md={6}>
-          <Search label="SEARCH" />
+          <Search
+            label="SEARCH"
+            onChange={(value) => onFilterChange("search", value)}
+          />
         </Col>
       </StyledRow>
     </Container>

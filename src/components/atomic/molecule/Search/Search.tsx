@@ -14,11 +14,12 @@ const StyledDiv = styled.div`
   }
 `;
 
-const Search = ({ label, placeholder, ...props }) => {
+const Search = ({ label, placeholder, onChange, ...props }) => {
   const [value, setValue] = useState("");
 
   const onSearchChange = (value) => {
     setValue(value);
+    onChange?.(value);
   };
   return (
     <StyledDiv>

@@ -13,18 +13,18 @@ const Container = styled.div`
 
 const SelectMenu = ({
   label,
-  defaultValue,
-  options
+  options,
+  onChange
 }: {
   label: string;
-  defaultValue: string;
   options: object[];
+  onChange: () => void;
 }) => {
   return (
     <Container>
       <Text fontSize="1rem">{label}</Text>
       <div className="dropdown-wrapper">
-        <Select defaultValue={defaultValue} options={options} />
+        <Select options={options} onChange={onChange} />
       </div>
     </Container>
   );
