@@ -1,9 +1,10 @@
 import styled from "styled-components";
 import { Row, Col } from "antd";
-import { Logo, SelectMenu, Search } from "@atomic";
+import { Logo, SelectMenu, Search, PokemonCard } from "@atomic";
 import pokemonLogo from "@assets/images/pokedex.png";
 import { regions, types, sortby } from "./helper";
 import { useState } from "react";
+import { pokemonInfo } from "@utilities";
 
 const Container = styled.div`
   text-align: center;
@@ -13,6 +14,13 @@ const StyledRow = styled(Row)`
   margin: auto;
   margin-top 2rem;
   padding: 2rem;
+`;
+
+const PokemonContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 2rem;
+  justify-content: space-around;
 `;
 
 const regionDropdownItems = regions.map((r) => {
@@ -50,7 +58,7 @@ const SearchPage = () => {
   };
 
   const pokemonFilters = getFetchPokemonFilters(filter);
-  console.log({ pokemonFilters });
+  console.log(pokemonFilters);
 
   return (
     <Container>
@@ -84,6 +92,11 @@ const SearchPage = () => {
           />
         </Col>
       </StyledRow>
+      <PokemonContainer>
+        {[1, 2, 3, 4, 5, 6, 7, 8].map((x) => (
+          <PokemonCard key={x} pokemon={pokemonInfo} />
+        ))}
+      </PokemonContainer>
     </Container>
   );
 };

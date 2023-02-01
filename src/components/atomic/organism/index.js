@@ -1,3 +1,3 @@
-// import FilterDropDown from './FilterDropDown/FilterDropDown'
+import PokemonCard from "./PokemonCard/PokemonCard";
 
-// export { FilterDropDown };
+export { PokemonCard };
