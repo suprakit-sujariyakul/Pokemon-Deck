@@ -1,73 +1,73 @@
-import { filter } from 'lodash';
+import { filter } from "lodash";
 
 const regions = [
   {
-    name: 'Kanto',
+    name: "Kanto",
     limit: 151,
     offset: 0
   },
   {
-    name: 'Johto',
+    name: "Johto",
     limit: 100,
     offset: 151
   },
   {
-    name: 'Hoenn',
+    name: "Hoenn",
     limit: 135,
     offset: 251
   },
   {
-    name: 'Sinnoh',
+    name: "Sinnoh",
     limit: 108,
     offset: 386
   },
   {
-    name: 'Unova',
+    name: "Unova",
     limit: 155,
     offset: 494
   },
   {
-    name: 'Kalos',
+    name: "Kalos",
     limit: 72,
     offset: 649
   },
   {
-    name: 'Alola',
+    name: "Alola",
     limit: 88,
     offset: 721
   },
   {
-    name: 'Galar',
+    name: "Galar",
     limit: 89,
     offset: 809
   }
 ];
 
 const types = [
-  'all types',
-  'grass',
-  'bug',
-  'dark',
-  'dragon',
-  'electric',
-  'fairy',
-  'fighting',
-  'fire',
-  'flying',
-  'ghost',
-  'ground',
-  'ice',
-  'normal',
-  'poison',
-  'psychic',
-  'rock',
-  'steel',
-  'water'
+  "all types",
+  "grass",
+  "bug",
+  "dark",
+  "dragon",
+  "electric",
+  "fairy",
+  "fighting",
+  "fire",
+  "flying",
+  "ghost",
+  "ground",
+  "ice",
+  "normal",
+  "poison",
+  "psychic",
+  "rock",
+  "steel",
+  "water"
 ];
 
-const sortby = ['Id', 'Name'];
+const sortby = ["Id", "Name"];
 
-const filterByType = (pokemon = {}, filterType = '') => {
+const filterByType = (pokemon = {}, filterType = "") => {
   const pokemonTypes = pokemon?.types?.map((i) => i?.type?.name) || [];
 
   if (!pokemonTypes || !pokemonTypes.includes(filterType)) return false;
@@ -75,18 +75,18 @@ const filterByType = (pokemon = {}, filterType = '') => {
   return true;
 };
 
-const filterBySearch = (pokemon = {}, filterSearch = '') => {
+const filterBySearch = (pokemon = {}, filterSearch = "") => {
   const pokemonName = pokemon?.name;
 
-  return pokemonName.toLowerCase().includes(filterSearch);
+  return pokemonName.toLowerCase().includes(filterSearch.toLowerCase());
 };
 
 const sortingBy = (sortBy) => {
-  if (sortBy === 'Id') {
+  if (sortBy === "Id") {
     return (a, b) => (a.id > b.id ? 1 : b.id > a.id ? -1 : 0);
   }
 
-  if (sortBy === 'Name') {
+  if (sortBy === "Name") {
     return (a, b) => (a.name > b.name ? 1 : b.name > a.name ? -1 : 0);
   }
 };

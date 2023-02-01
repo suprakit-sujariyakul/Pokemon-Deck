@@ -12,7 +12,7 @@ const Select = ({
       placeholder="Select"
       style={{ width: 200 }}
       listHeight={150}
-      onChange={(value, option) => onChange(value)}
+      onChange={(value, option) => onChange(option)}
       options={options}
     />
   );

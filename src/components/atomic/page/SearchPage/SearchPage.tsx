@@ -1,10 +1,18 @@
 import styled from "styled-components";
-import { Row, Col } from "antd";
+import { Row, Col, Spin } from "antd";
 import { Logo, SelectMenu, Search, PokemonCard } from "@atomic";
 import pokemonLogo from "@assets/images/pokedex.png";
-import { regions, types, sortby } from "./helper";
-import { useState } from "react";
-import { pokemonInfo } from "@utilities";
+import {
+  regions,
+  types,
+  sortby,
+  filterBySearch,
+  filterByType,
+  sortingBy
+} from "./helper";
+import { useState, useEffect } from "react";
+import { pokemonApiV2 } from "@utilities";
+import { filter } from "lodash";
 
 const Container = styled.div`
   text-align: center;
@@ -44,12 +52,60 @@ const sortbyDropdownItems = sortby.map((s) => ({
   label: s
 }));
 
-const getFetchPokemonFilters = (filters) => {
-  return filters;
+const getQueryString = (region) => {
+  if (!region) return null;
+
+  let query = new URLSearchParams();
+
+  query.append("limit", region?.limit);
+  query.append("offset", region?.offset);
+
+  return query.toString();
+};
+
+const getPokemonList = (pokemons = [], filters = {}) => {
+  const { search, type, sortBy } = filters;
+
+  const pokemonLists = filter(pokemons, (pokemon) => {
+    let remove = false;
+
+    if (search && !filterBySearch(pokemon, search)) {
+      remove = true;
+    }
+
+    if (
+      type &&
+      type?.value !== "all types" &&
+      !filterByType(pokemon, type?.value)
+    ) {
+      remove = true;
+    }
+
+    return !remove;
+  });
+
+  const sortedPokemonList = pokemonLists.sort(sortingBy(sortBy?.value));
+
+  const result = sortedPokemonList.map((pokemon) => {
+    return {
+      ...pokemon,
+      image: pokemon?.sprites?.other?.dream_world?.front_default
+    };
+  });
+
+  return result;
+};
+
+const initial = {
+  data: [],
+  loading: false,
+  error: null
 };
 
 const SearchPage = () => {
-  const [filter, setFilter] = useState({});
+  const [filters, setFilter] = useState({});
+  const [state, setState] = useState(initial);
+
   const onFilterChange = (key, value) => {
     setFilter((prevFilter) => ({
       ...prevFilter,
@@ -57,8 +113,44 @@ const SearchPage = () => {
     }));
   };
 
-  const pokemonFilters = getFetchPokemonFilters(filter);
-  console.log(pokemonFilters);
+  const queryString = getQueryString(filters?.region);
+  const pokemonLists = getPokemonList(state?.data, filters);
+
+  const fetchPokemonList = async () => {
+    if (!queryString) return;
+
+    let pokemonList = [];
+    let fetchError = null;
+
+    setState((prev) => ({
+      ...prev,
+      loading: true
+    }));
+
+    try {
+      const response = await pokemonApiV2.get(`pokemon?${queryString}`);
+      const pokemonResults = response?.data?.results || [];
+
+      for (let pokemon of pokemonResults) {
+        const response = await pokemonApiV2.get(`pokemon/${pokemon?.name}`);
+        const monster = await response?.data;
+        await pokemonList.push(monster);
+      }
+    } catch (error) {
+      fetchError = error;
+    }
+
+    setState((prev) => ({
+      ...prev,
+      loading: false,
+      data: pokemonList,
+      error: fetchError
+    }));
+  };
+
+  useEffect(() => {
+    queryString && fetchPokemonList();
+  }, [queryString]);
 
   return (
     <Container>
@@ -93,9 +185,13 @@ const SearchPage = () => {
         </Col>
       </StyledRow>
       <PokemonContainer>
-        {[1, 2, 3, 4, 5, 6, 7, 8].map((x) => (
-          <PokemonCard key={x} pokemon={pokemonInfo} />
-        ))}
+        {state?.loading ? (
+          <Spin />
+        ) : (
+          [...pokemonLists].map((pokemon) => (
+            <PokemonCard key={pokemon?.id} pokemon={pokemon} />
+          ))
+        )}
       </PokemonContainer>
     </Container>
   );
