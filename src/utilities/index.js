@@ -1,1 +1,2 @@
-export * from "./logger"
+export * from "./pokemonInfo";
+export * from "./pokemon";

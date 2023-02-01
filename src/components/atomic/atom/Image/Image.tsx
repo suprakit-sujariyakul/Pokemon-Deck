@@ -1,7 +1,7 @@
-import { Image as ImageAntd } from 'antd'
+import { Image as ImageAntd } from "antd";
 
-const Image = (props) => {
-    return <ImageAntd {...props} />;
+const Image = (props: {}) => {
+  return <ImageAntd {...props} />;
 };
 
 export default Image;
