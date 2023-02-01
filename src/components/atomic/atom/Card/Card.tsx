@@ -11,6 +11,7 @@ const StyledCard = styled(CardAntd)`
   }
 
   border-radius: ${({ borderRadius }) => borderRadius || "20rem"};
+  max-width: ${({ maxWidth }) => maxWidth || "60rem"};
 `;
 
 const StyledHeaderContainer = styled.div`
@@ -30,10 +31,10 @@ const Header = ({ left, right, children }) => {
   );
 };
 
-const Card = ({ children, left, right, bgColors, ...props }) => {
+const Card = ({ children, left, right, bgColors = [], maxWidth, ...props }) => {
   const header = <Header left={left} right={right} />;
   return (
-    <StyledCard bgColors={bgColors} {...props}>
+    <StyledCard bgColors={bgColors} maxWidth={maxWidth} {...props}>
       {header && header}
       {children}
     </StyledCard>
